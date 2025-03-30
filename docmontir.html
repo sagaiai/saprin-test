@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلب مساعدة طبي بين أطباء الأسنان</title>
+    <style>
+        :root {
+            --primary-color: #de3163;
+            --secondary-color: #ffffff;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --accent-color: #555;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+
+        .container {
+            background-color: var(--secondary-color);
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--primary-color);
+        }
+
+        select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .submit-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* يجعلها فوق كل العناصر */
+        }
+        
+        .navbar a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* تأكد من أن الصفحة لا تبدأ خلف الـ Navbar */
+        body {
+            padding-top: 60px; /* اضبطه حسب ارتفاع الـ Navbar */
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="pas.html">المواعيد التي حُجزت</a>
+        <a href="top.html">احصائيات المواعيد</a>
+        <a href="docmontir.html">طلب مساعدة طبي بين أطباء الأسنان</a>
+    </div>
+    <div class="container">
+        <div class="form-group">
+            <label>التخصص (بين قوسين)</label>
+            <select id="specialty">
+                <option value="tiba">طب الأسنان التجميلي (تيبا)</option>
+                <option value="implant">زراعة الأسنان (إمبلانت)</option>
+                <option value="orthodontics">تقويم الأسنان (أورثودنتكس)</option>
+                <option value="endodontics">علاج العصب (إندودنتكس)</option>
+                <option value="periodontics">علاج اللثة (بيريودنتكس)</option>
+                <option value="oral-surgery">الجراحة الفموية (أوراल سيرجري)</option>
+                <option value="pediatric-dentistry">طب أسنان الأطفال (بيديتريك)</option>
+                <option value="prosthetics">التعويضات السنية (بروستيتكس)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>نوع الطلب</label>
+            <select id="request-type">
+                <option value="consultation">استشارة فنية</option>
+                <option value="intervention">تدخل مشترك</option>
+                <option value="complex-case">حالة معقدة</option>
+                <option value="reference">إحالة مريض</option>
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>تفاصيل إضافية</label>
+            <textarea id="details" rows="4" placeholder="اكتبي التفاصيل هنا..."></textarea>
+        </div>
+
+        <button class="submit-btn" onclick="generateRequest()">توليد نموذج الطلب</button>
+
+        <div id="result"></div>
+    </div>
+    <a id="doctor-login-btn" href="index.html">خروج
+        <style>
+            #doctor-login-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                transition: transform 0.3s ease;
+            }
+    
+            #doctor-login-btn:hover {
+                transform: scale(1.1);
+            }
+    
+            #doctor-login-btn img {
+                width: 30px;
+                height: 30px;
+                filter: invert(1);
+            }
+        </style>
+    </a>
+    <script>
+        function generateRequest() {
+            const specialty = document.getElementById('specialty');
+            const requestType = document.getElementById('request-type');
+            const details = document.getElementById('details');
+            const result = document.getElementById('result');
+
+            const requestTexts = {
+                'consultation': 'طلب استشارة فنية متخصصة',
+                'intervention': 'طلب تدخل مشترك',
+                'complex-case': 'طلب مساعدة في حالة معقدة',
+                'reference': 'طلب إحالة مريض'
+            };
+
+            const requestText = `
+                الأخ الطبيب الكريم،
+
+                الموضوع: ${specialty.options[specialty.selectedIndex].text}
+
+                ${requestTexts[requestType.value]}
+
+                التفاصيل: ${details.value || 'لا توجد تفاصيل إضافية'}
+
+                مع تحية الأخوة الطبية،
+                [اسم الطبيبة]
+            `;
+
+            result.textContent = requestText;
+        }
+    </script>
+</body>
+</html>

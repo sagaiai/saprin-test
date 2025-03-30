@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" type="image/png" href="health.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html, body {
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6e7fdb, #2a3b6d);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .bottom-clip {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background: #2a3b6d;
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .content {
+            text-align: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: 600;
+            z-index: 1;
+            letter-spacing: 1px;
+            animation: fadeIn 3s ease-out;
+        }
+
+        .definition {
+            color: #f7f7f7;
+            font-size: 1.2rem;
+            font-weight: 400;
+            max-width: 800px;
+            margin-top: 20px;
+            animation: fadeInUp 4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            0% { transform: translateY(30px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .line {
+            position: absolute;
+            width: 80%;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.3);
+            animation: moveLine 5s linear infinite;
+        }
+
+        @keyframes moveLine {
+            0% {
+                transform: translateX(-100%) rotate(0deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(360deg);
+            }
+        }
+
+        .line:nth-child(1) {
+            top: 15%;
+            animation-duration: 6s;
+        }
+        .line:nth-child(2) {
+            top: 35%;
+            animation-duration: 5s;
+        }
+        .line:nth-child(3) {
+            top: 55%;
+            animation-duration: 4s;
+        }
+        .line:nth-child(4) {
+            top: 75%;
+            animation-duration: 3s;
+        }
+
+        button {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            font-size: 1.2rem;
+            color: white;
+            background: #6e7fdb;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+        
+        button:hover {
+            background: #5768c7;
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <div class="content">
+        SagaiAi مرحبًا بك في عالم الذكاء الاصطناعي!
+    </div>
+
+    <div class="definition">
+        الذكاء الاصطناعي هو مجموعة من الأنظمة التي تهدف إلى محاكاة القدرات البشرية مثل التعلم، الفهم، واتخاذ القرارات. يمكن للذكاء الاصطناعي أن يساهم بشكل كبير في تسريع وتحسين العمليات في مختلف الصناعات.
+    </div>
+
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+    
+    <div class="bottom-clip"></div>
+
+    <!-- تصحيح الزر لاستخدام JavaScript للتوجيه -->
+    <button type="button" onclick="window.location.href='nexon_ai.html';">ادخل الى SagaiAi</button>
+</body>
+</html>

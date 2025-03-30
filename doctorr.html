@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عن الطبيب | د. صبرين</title>
+    <link rel="icon" type="image/png" href="health.png">
+    <style>
+        :root {
+            --primary-color: #de3163;
+            --secondary-color: #ffffff;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --accent-color: #555;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            line-height: 1.7;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* يجعلها فوق كل العناصر */
+        }
+        
+        .navbar a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* تأكد من أن الصفحة لا تبدأ خلف الـ Navbar */
+        body {
+            padding-top: 60px; /* اضبطه حسب ارتفاع الـ Navbar */
+        }
+        
+
+        .doctor-profile {
+            background-color: var(--secondary-color);
+            margin: 50px auto;
+            padding: 40px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .doctor-profile::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .doctor-profile img {
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 6px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .doctor-profile h1 {
+            color: var(--primary-color);
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .doctor-profile h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .doctor-profile h3 {
+            color: var(--primary-color);
+            font-size: 22px;
+            margin: 25px 0 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .doctor-profile h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+
+        .doctor-profile p {
+            font-size: 18px;
+            color: var(--accent-color);
+            margin: 10px 0;
+            text-align: justify;
+            line-height: 1.8;
+        }
+
+        .doctor-profile ul {
+            list-style-type: none;
+            text-align: right;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .doctor-profile ul li {
+            margin: 10px 0;
+            position: relative;
+            padding-right: 20px;
+        }
+
+        .doctor-profile ul li::before {
+            content: '•';
+            color: var(--primary-color);
+            position: absolute;
+            right: 0;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .doctor-profile {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .doctor-profile img {
+                width: 200px;
+                height: 200px;
+            }
+
+            .doctor-profile h1 {
+                font-size: 28px;
+            }
+
+            .doctor-profile h2, .doctor-profile h3 {
+                font-size: 20px;
+            }
+
+            .doctor-profile p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+        <a href="doctorr.html">عن الطبيب</a>
+        <a href="h.html">حجز موعد</a>
+    </div>
+    
+    <div class="doctor-profile">
+        <img src="image.png" alt="الدكتورة صبرين">
+        <h2>طبيبة جراحة وتجميل الأسنان</h2>
+        <h1>د. صبرين</h1>
+    
+        <h3>السيرة الذاتية</h3>
+        <p>
+            الدكتورة صبرين طبيبة متخصصة في طب وجراحة وتجميل الأسنان، حاصلة على شهادة الطب من إحدى الجامعات المرموقة. تمتلك خبرة واسعة في علاج مشاكل الفم والأسنان، وتصميم الابتسامة، وتقويم الأسنان، وإجراء العمليات التجميلية بدقة واحترافية. تهدف دائمًا إلى تقديم أفضل رعاية صحية باستخدام أحدث التقنيات في عالم طب الأسنان.
+        </p>
+    
+        <h3>المؤهلات الأكاديمية</h3>
+        <ul>
+            <li>بكالوريوس في طب وجراحة الأسنان</li>
+            <li>ماجستير في جراحة وتجميل الأسنان</li>
+            <li>دورات متقدمة في زراعة الأسنان وتقويم الأسنان وتجميل الابتسامة</li>
+        </ul>
+    
+        <h3>الخبرة العملية</h3>
+        <ul>
+            <li>العمل في عيادات ومراكز متخصصة في طب وجراحة وتجميل الأسنان</li>
+            <li>إجراء العديد من عمليات زراعة الأسنان وتجميل الأسنان وتصحيح الابتسامة</li>
+            <li>علاج مشاكل اللثة وتسوس الأسنان وأمراض الفم المختلفة</li>
+            <li>تقديم الاستشارات والعلاجات الوقائية لمرضى الأسنان بكافة أعمارهم</li>
+        </ul>
+    
+        <h3>الهدف المهني</h3>
+        <p>
+            تسعى الدكتورة صبرين إلى تحسين صحة وابتسامة مرضاها من خلال توفير رعاية طبية متكاملة وآمنة باستخدام أحدث التقنيات والأساليب العلاجية المتطورة، مع الحرص على تحقيق رضا المريض وراحته.
+        </p>
+    </div>
+    
+</body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المواعيد المحجوزة | د. صبرين</title>
+    <link rel="icon" type="image/png" href="health.png">
+    <style>
+        :root {
+            --primary-color: #de3163;
+            --secondary-color: #ffffff;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --accent-color: #6F8FAF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* يجعلها فوق كل العناصر */
+        }
+        
+        .navbar a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* تأكد من أن الصفحة لا تبدأ خلف الـ Navbar */
+        body {
+            padding-top: 60px; /* اضبطه حسب ارتفاع الـ Navbar */
+        }
+        
+        .doctor-profile {
+            background-color: var(--secondary-color);
+            margin: 50px auto;
+            padding: 20px;
+            width: 90%;
+            max-width: 1200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-profile h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .appointments-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .appointments-table th, .appointments-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .appointments-table th {
+            background-color: #f8f8f8;
+            color: var(--primary-color);
+        }
+
+        .delete-btn {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            border: none;
+            border-radius: 5px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c62b4e;
+        }
+
+        @media (max-width: 768px) {
+            .navbar a {
+                margin: 0 10px;
+                font-size: 16px;
+            }
+
+            .appointments-table {
+                font-size: 14px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="pas.html">المواعيد التي حُجزت</a>
+        <a href="top.html">احصائيات المواعيد</a>
+        <a href="docmontir.html">طلب مساعدة طبي بين أطباء الأسنان</a>
+    </div>
+
+    <div class="doctor-profile">
+        <h2>المواعيد التي حُجزت</h2>
+    </div>
+
+    <a id="doctor-login-btn" href="index.html">خروج
+        <style>
+            #doctor-login-btn {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                width: 60px;
+                height: 60px;
+                background-color: var(--primary-color);
+                color: white;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+                transition: transform 0.3s ease;
+            }
+    
+            #doctor-login-btn:hover {
+                transform: scale(1.1);
+            }
+    
+            #doctor-login-btn img {
+                width: 30px;
+                height: 30px;
+                filter: invert(1);
+            }
+        </style>
+    </a>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, onValue, remove } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHwQFl7",
+            authDomain: "apppp-e6d3b.firebaseapp.com",
+            projectId: "apppp-e6d3b",
+            storageBucket: "apppp-e6d3b.appspot.com",
+            messagingSenderId: "606593845407",
+            appId: "1:606593845407:web:221d65637d40c3d94a7aaa"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+    
+        function loadBookedAppointments() {
+            const appointmentsRef = ref(database, "appointments");
+            const list = document.querySelector(".doctor-profile");
+    
+            onValue(appointmentsRef, (snapshot) => {
+                list.innerHTML = "<h2>المواعيد التي حُجزت</h2>"; // إعادة تعيين القائمة
+    
+                const bookedAppointments = snapshot.val();
+                if (!bookedAppointments) {
+                    list.innerHTML += "<p>❌ لا توجد مواعيد محجوزة حاليًا</p>";
+                    return;
+                }
+
+                // تحويل البيانات إلى مصفوفة وفرزها حسب التاريخ
+                const sortedAppointments = Object.entries(bookedAppointments)
+                    .map(([key, appointment]) => ({
+                        key,
+                        ...appointment,
+                        timestamp: new Date(`${appointment.date} ${appointment.time}`).getTime() // تحويل إلى timestamp للفرز
+                    }))
+                    .sort((a, b) => a.timestamp - b.timestamp); // فرز حسب التاريخ
+                    
+                // إنشاء الجدول
+                const table = document.createElement("table");
+                table.className = "appointments-table";
+                
+                // رأس الجدول
+                const thead = document.createElement("thead");
+                const headerRow = document.createElement("tr");
+                headerRow.innerHTML = `
+                    <th>الاسم</th>
+                    <th>رقم الهاتف</th>
+                    <th>التاريخ</th>
+                    <th>الوقت</th>
+                    <th>عمر المريض</th>
+                    <th>الإجراء</th>
+                `;
+                thead.appendChild(headerRow);
+                table.appendChild(thead);
+
+                // جسم الجدول
+                const tbody = document.createElement("tbody");
+
+                sortedAppointments.forEach(({ key, bookedBy, phone, time, date, age }) => {
+                    const row = document.createElement("tr");
+
+                    row.innerHTML = `
+                        <td>${bookedBy}</td>
+                        <td>${phone}</td>
+                        <td>${date}</td>
+                        <td>${time}</td>
+                        <td>${age}</td>
+                        <td><button class="delete-btn">حذف</button></td>
+                    `;
+                    
+                    const deleteBtn = row.querySelector(".delete-btn");
+                    deleteBtn.onclick = function () {
+                        if (confirm("هل أنت متأكد من حذف هذا الموعد؟")) {
+                            remove(ref(database, `appointments/${key}`));
+                        }
+                    };
+                    
+                    tbody.appendChild(row);
+                });
+
+                table.appendChild(tbody);
+                list.appendChild(table);
+            });
+        }
+    
+        loadBookedAppointments();
+    </script>
+</body>
+</html>

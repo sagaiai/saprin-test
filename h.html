@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام حجز المواعيد | د. صبرين</title>
+    <link rel="icon" type="image/png" href="health.png">
+    <style>
+        :root {
+            --primary-color: #de3163;
+            --secondary-color: #ffffff;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --accent-color: #6F8FAF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* يجعلها فوق كل العناصر */
+        }
+        
+        .navbar a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* تأكد من أن الصفحة لا تبدأ خلف الـ Navbar */
+        body {
+            padding-top: 60px; /* اضبطه حسب ارتفاع الـ Navbar */
+        }
+        
+
+        h2 {
+            color: var(--primary-color);
+            margin: 30px 0;
+            font-size: 28px;
+        }
+
+        .appointment-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .appointment-item {
+            background-color: var(--secondary-color);
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            width: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .appointment-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .appointment-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .appointment-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .appointment-item.taken {
+            background-color: #ffcdce;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .separator {
+            width: 100%;
+            border: none;
+            height: 2px;
+            background-color: var(--primary-color);
+            margin: 30px 0;
+            opacity: 0.5;
+        }
+
+        #doctor-login-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        #doctor-login-btn:hover {
+            transform: scale(1.1);
+        }
+
+        #doctor-login-btn img {
+            width: 30px;
+            height: 30px;
+            filter: invert(1);
+        }
+
+        @media (max-width: 768px) {
+            .appointment-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .appointment-item {
+                width: 90%;
+                max-width: 350px;
+            }
+
+            .navbar a {
+                margin: 0 10px;
+                font-size: 16px;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+        <a href="doctorr.html">عن الطبيب</a>
+        <a href="h.html">حجز موعد</a>
+    </div>
+
+    <h2>المواعيد المتاحة</h2>
+    <div class="appointment-container" id="appointment-list"></div>
+
+    <button id="doctor-login-btn">
+        <img src="imeg/health.png" alt="تسجيل دخول الطبيب">
+    </button>
+
+    <script src="https://cdn.daypilot.org/daypilot-all.min.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDHwQFl7",
+            authDomain: "apppp-e6d3b.firebaseapp.com",
+            projectId: "apppp-e6d3b",
+            storageBucket: "apppp-e6d3b.appspot.com",
+            messagingSenderId: "606593845407",
+            appId: "1:606593845407:web:221d65637d40c3d94a7aaa"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        function getFutureDate(days) {
+            let date = new Date();
+            date.setDate(date.getDate() + days);
+            return date.toISOString().split('T')[0];
+        }
+
+        var appointments = [];
+        for (let i = 0; i < 7; i++) {
+            let date = getFutureDate(i);
+            appointments.push({ time: "9:00", date });
+            appointments.push({ time: "11:30", date });
+            appointments.push({ time: "12:00", date });
+            appointments.push({ time: "13:30", date });
+            appointments.push({ time: "14:00", date });
+            appointments.push({ time: "15:30", date });
+            appointments.push({ time: "16:00", date });
+            appointments.push({ time: "17:30", date });
+            appointments.push({ time: "18:00", date });
+            appointments.push({ time: "19:00", date});
+        }
+
+        function loadAppointments() {
+            const appointmentsRef = ref(database, "appointments");
+            onValue(appointmentsRef, (snapshot) => {
+                const storedAppointments = snapshot.val() || {};
+                const list = document.getElementById("appointment-list");
+                list.innerHTML = "";
+                let lastDate = "";
+
+                appointments.forEach(appointment => {
+                    if (lastDate !== appointment.date) {
+                        let separator = document.createElement("hr");
+                        separator.className = "separator";
+                        list.appendChild(separator);
+                    }
+
+                    var isTaken = Object.values(storedAppointments).some(
+                        taken => taken.time === appointment.time && taken.date === appointment.date
+                    );
+
+                    var item = document.createElement("div");
+                    item.className = "appointment-item" + (isTaken ? " taken" : "");
+                    item.innerHTML = `<span>🕒 ${appointment.time} - 📅 ${appointment.date}</span>`;
+
+                    if (!isTaken) {
+                        item.onclick = function() {
+                            bookAppointment(appointment.time, appointment.date);
+                        };
+                    }
+
+                    list.appendChild(item);
+                    lastDate = appointment.date;
+                });
+            });
+        }
+
+        async function bookAppointment(time, date) {
+            const { value: name } = await Swal.fire({
+                title: "👩🏻‍⚕️ أدخل اسمك للحجز",
+                input: "text",
+                inputPlaceholder: "مثلاً: أحمد محمد",
+                showCancelButton: true,
+                confirmButtonText: "التالي",
+                cancelButtonText: "إلغاء"
+            });
+        
+            if (!name) return;
+        
+            const { value: phone } = await Swal.fire({
+                title: "📞 أدخل رقم الهاتف",
+                input: "tel",
+                inputPlaceholder: "مثلاً: 0612345678",
+                showCancelButton: true,
+                confirmButtonText: "التالي",
+                cancelButtonText: "إلغاء"
+            });
+        
+            if (!phone) return;
+        
+            const { value: age } = await Swal.fire({
+                title: "🎂 أدخل عمرك",
+                input: "number",
+                inputPlaceholder: "مثلاً: 25",
+                showCancelButton: true,
+                confirmButtonText: "إرسال",
+                cancelButtonText: "إلغاء"
+            });
+        
+            if (!age) return;
+        
+            const appointmentData = { time, date, bookedBy: name, phone, age, timestamp: Date.now() };
+            const appointmentsRef = ref(database, "appointments");
+        
+            push(appointmentsRef, appointmentData).then(() => {
+                Swal.fire({
+                    icon: "success",
+                    title: "✅ تم الحجز بنجاح!",
+                    text: `تم حجز موعدك في ${time} - ${date}.`,
+                    confirmButtonText: "حسنًا"
+                });
+                loadAppointments();
+            }).catch((error) => {
+                Swal.fire({
+                    icon: "error",
+                    title: "❌ فشل الحجز",
+                    text: `حدث خطأ أثناء الحجز: ${error.message}`,
+                    confirmButtonText: "حاول مجددًا"
+                });
+            });
+        }
+        
+        document.getElementById("doctor-login-btn").onclick = function() {
+            window.location.href = "fk.html";
+        };
+
+        loadAppointments();
+    </script>
+</body>
+</html>

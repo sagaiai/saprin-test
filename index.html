@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>د. صبرين</title>
+    <link rel="icon" type="image/png" href="health.png">
+    <style>
+        :root {
+            --primary-color: #de3163;
+            --secondary-color: #ffffff;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* يجعلها فوق كل العناصر */
+        }
+        
+        .navbar a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* تأكد من أن الصفحة لا تبدأ خلف الـ Navbar */
+        body {
+            padding-top: 60px; /* اضبطه حسب ارتفاع الـ Navbar */
+        }
+        
+
+        .doctor-profile {
+            background-color: var(--secondary-color);
+            margin: 50px auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .doctor-profile::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .doctor-profile h2 {
+            color: var(--primary-color);
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .doctor-profile p {
+            font-size: 20px;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .doctor-profile img {
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 6px solid var(--primary-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .book-appointment-btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 12px 25px;
+            font-size: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 20px;
+        }
+
+        .book-appointment-btn:hover {
+            background-color: color-mix(in srgb, var(--primary-color) 80%, black);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .navbar a {
+                margin: 0 10px;
+                font-size: 16px;
+            }
+
+            .doctor-profile {
+                width: 95%;
+                padding: 20px;
+            }
+
+            .doctor-profile h2 {
+                font-size: 28px;
+            }
+
+            .doctor-profile p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+        <a href="doctorr.html">عن الطبيب</a>
+        <a href="h.html">حجز موعد</a>
+    </div>
+
+    <div class="doctor-profile">
+        <img src="image.png" alt="صورة الدكتورة نجلاء محمودي" />
+        <h2>د. صبرين</h2>
+        <p>استشاري أمراض الاسنان</p>
+        <a href="h.html" class="book-appointment-btn">حجز موعد</a>
+    </div>
+</body>
+</html>

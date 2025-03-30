@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل دخول الطبيب</title>
+    <link rel="icon" type="image/png" href="health.png">
+    <style>
+        :root {
+            --primary-color: #de3163;
+            --secondary-color: #ffffff;
+            --background-color: #f4f4f4;
+            --text-color: #333;
+            --accent-color: #6F8FAF;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', 'Arial', sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            text-align: center;
+        }
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* يجعلها فوق كل العناصر */
+        }
+        
+        .navbar a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .navbar a:hover {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .navbar a:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        /* تأكد من أن الصفحة لا تبدأ خلف الـ Navbar */
+        body {
+            padding-top: 60px; /* اضبطه حسب ارتفاع الـ Navbar */
+        }
+        
+
+        .doctor-profile {
+            background-color: var(--secondary-color);
+            margin: 50px auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .doctor-profile h2 {
+            color: var(--primary-color);
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .doctor-profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 30px;
+            border: 4px solid var(--primary-color);
+        }
+
+        .doctor-profile input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .doctor-profile input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .book-appointment-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-appointment-btn:hover {
+            background-color: #c62b4e;
+        }
+
+        @media (max-width: 768px) {
+            .navbar a {
+                margin: 0 10px;
+                font-size: 16px;
+            }
+
+            .doctor-profile {
+                width: 95%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html">الرئيسية</a>
+        <a href="doctorr.html">عن الطبيب</a>
+        <a href="h.html">حجز موعد</a>
+    </div>
+
+    <div class="doctor-profile">
+        <h2>تسجيل الدخول</h2>
+        <img src="image.png" alt="صورة الطبيب">
+        
+        <input type="text" id="name" placeholder="اسم المستخدم" required>
+        
+        <input type="password" id="pass" placeholder="كلمة المرور" required>
+        
+        <button type="button" class="book-appointment-btn" onclick="checkUserData()">تسجيل الدخول</button>
+    </div>
+
+    <script>
+        function checkUserData() {
+            const name = document.getElementById('name').value;
+            const pass = document.getElementById('pass').value;
+
+            if (name === "صبرين" && pass === "123") {
+                window.location.href = "pas.html";
+            } else {
+                alert("❌ اسم المستخدم أو كلمة المرور غير صحيحة");
+            }
+        }
+    </script>
+</body>
+</html>
